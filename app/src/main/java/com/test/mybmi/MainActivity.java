@@ -4,6 +4,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 
 import android.view.View;
@@ -61,24 +62,15 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onClick(View v) {
             try {
-                DecimalFormat nf = new DecimalFormat("0.00");
-                //身高
-                double height = Double.parseDouble(num_height.getText().toString())/100;
-                //體重
-                double weight = Double.parseDouble(num_weight.getText().toString());
-                //計算出BMI值
-                double BMI = weight / (height*height);
 
-                //結果
-                show_result.setText(getText(R.string.bmi_result) + nf.format(BMI));
+                Intent intent = new Intent();
+                intent.setClass(MainActivity.this, ReportActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("KEY_HEIGHT", num_height.getText().toString());
+                bundle.putString("KEY_WEIGHT", num_weight.getText().toString());
+                intent.putExtras(bundle);
+                startActivity(intent);
 
-                //建議
-                if(BMI > 25) //太重了
-                    show_suggest.setText(R.string.advice_heavy);
-                else if(BMI < 20) //太輕了
-                    show_suggest.setText(R.string.advice_light);
-                else //剛剛好
-                    show_suggest.setText(R.string.advice_average);
             }catch (Exception obj){
                 Toast.makeText(MainActivity.this, "要先輸入身高體重喔!", Toast.LENGTH_SHORT).show();
             }
