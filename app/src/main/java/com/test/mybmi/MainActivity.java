@@ -1,8 +1,11 @@
 package com.test.mybmi;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
+
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -10,8 +13,13 @@ import android.widget.TextView;
 import android.view.View;
 import android.view.View.OnClickListener;
 
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.Toast;
+
 import java.text.DecimalFormat;
 import java.util.Locale;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -72,5 +80,59 @@ public class MainActivity extends AppCompatActivity {
                 show_suggest.setText(R.string.advice_average);
         }
     };
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+        // 設置要用哪個menu檔做為選單
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        // 取得點選項目的id
+        int id = item.getItemId();
+
+        // 依照id判斷點了哪個項目並做相應事件
+        switch(id)
+        {
+            case R.id.action_settings:
+                // 按下「設定」要做的事
+                //Toast訊息
+                Toast.makeText(this, "設定", Toast.LENGTH_SHORT).show();
+                break;
+
+            case R.id.action_help:
+                // 按下「使用說明」要做的事
+                Toast.makeText(this, "使用說明", Toast.LENGTH_SHORT).show();
+                break;
+
+            case R.id.action_about:
+                // 按下「關於」要做的事
+                openOptionsDialog();
+                break;
+        }
+
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void openOptionsDialog()
+    {
+        //顯示出一個簡單的對話框,用的方法是Android內建的AlertDialog
+        new AlertDialog.Builder(this)
+                .setTitle("關於Android BMI")
+                .setMessage("Android BMI 計算")
+                .setPositiveButton("OK",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        })
+                .show();
+    }
 
 }
