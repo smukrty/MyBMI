@@ -2,6 +2,7 @@ package com.test.mybmi;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -11,6 +12,7 @@ import android.widget.Toast;
 import java.text.DecimalFormat;
 
 public class ReportActivity extends AppCompatActivity {
+    private double BMI;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +46,7 @@ public class ReportActivity extends AppCompatActivity {
             //體重
             double weight = Double.parseDouble(bundle.getString("KEY_WEIGHT"));
             //計算出BMI值
-            double BMI = weight / (height*height);
+            BMI = weight / (height*height);
 
             //結果
             show_result.setText(getText(R.string.bmi_result) + nf.format(BMI));
@@ -72,6 +74,14 @@ public class ReportActivity extends AppCompatActivity {
     {
         public void onClick(View v)
         {
+            DecimalFormat nf = new DecimalFormat("0.00");
+
+            Bundle bundle = new Bundle();
+            bundle.putString("BMI", nf.format(BMI));
+            Intent intent = new Intent();
+            intent.putExtras(bundle);
+            //代表回傳OK的結果，並傳一個Intent回到原本呼叫的MainActivity，這個Intent帶有BMI值的計算結果
+            setResult(RESULT_OK, intent);
             ReportActivity.this.finish();
         }
     };
